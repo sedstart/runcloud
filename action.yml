@@ -1,0 +1,35 @@
+name: "Run CI on Sedstart No-Code Platform"
+description: "Trigger CI run on Sedstart automation platform"
+author: "Atmaram Naik / Sedstart"
+branding:
+  icon: "play"
+  color: "blue"
+
+inputs:
+  api_key:
+    description: "APIKey for authentication"
+    required: true
+  project_id:
+    description: "Project ID"
+    required: true
+  test_id:
+    description: "Test ID"
+    required: true
+  profile_id:
+    description: "Profile ID"
+    required: true
+  browser:
+    description: "Browser to run the test (e.g., chrome)"
+    required: true
+  headless:
+    description: "Run in headless mode (true/false)"
+    required: false
+    default: "false"
+  environment:
+    description: "Environment to run on: QA or Prod (default: Prod)"
+    required: false
+    default: "Prod"
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
