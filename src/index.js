@@ -73,12 +73,16 @@ async function run() {
         const projectId = core.getInput("project_id", { required: true });
         const testId = core.getInput("test_id");
         const suiteId = core.getInput("suite_id");
-        const profileId = core.getInput("profile_id", { required: true });
+        const profileId = core.getInput("profile_id");
         const browser = core.getInput("browser", { required: true });
         const headless = core.getInput("headless") === "true";
         const environment = core.getInput("environment") || "Prod";
         if (!testId && !suiteId) {
-            core.setFailed("You must provide either test_id or suite_id.");
+            core.setFailed("You must provide either test_id or suite_id");
+            return;
+        }
+        if (profileId && isNaN(Number(profileId))) {
+            core.setFailed("profile_id must be numeric");
             return;
         }
         let idPayload = {};
@@ -102,10 +106,13 @@ async function run() {
         const payload = {
             project_id: Number(projectId),
             ...idPayload,
-            profile_id: Number(profileId),
             browser,
             headless
         };
+
+        if (profileId) {
+            payload.profile_id = Number(profileId);
+        }
 
         const response = await fetch(url, {
             method: "POST",
