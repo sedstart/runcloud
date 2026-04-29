@@ -35221,6 +35221,10 @@ async function run() {
             core.setFailed("You must provide either test_id or suite_id");
             return;
         }
+        if (testId && suiteId) {
+            core.setFailed("Provide only one of test_id or suite_id");
+            return;
+        }
         if (profileId && isNaN(Number(profileId))) {
             core.setFailed("profile_id must be numeric");
             return;
